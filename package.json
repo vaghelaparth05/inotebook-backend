@@ -18,6 +18,10 @@
   "homepage": "https://github.com/vaghelaparth05/inotebook-backend#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "express-validator": "^6.15.0",
     "mongoose": "^6.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
