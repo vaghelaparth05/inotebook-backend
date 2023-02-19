@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/vaghelaparth05/inotebook-backend#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "express": "^4.18.2",
     "express-validator": "^6.15.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.2"
   },
   "devDependencies": {
