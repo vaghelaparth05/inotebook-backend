@@ -60,8 +60,6 @@ router.post(
 // Updating an existing note
 router.put("/updatenote/:id", fetchUser, async (req, res) => {
   try {
-    console.log(req.params);
-    // returning errors when found.
     const { title, description, tags } = req.body;
     const noteId = req.params.id;
 
@@ -93,6 +91,29 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
       { new: true }
     );
     res.json(updatedNote);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Something went wrong!!!");
+  }
+});
+
+// Deleting an existing note
+router.delete("/deletenote/:id", fetchUser, async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    // Find if the note to be deleted exists and check if it exists
+    let receivedNote = await notes.findById(noteId);
+    if (!receivedNote) {
+      return res.status(400).send("Not found");
+    }
+
+    // Check if the note belongs to the correct user or not.
+    if (receivedNote.user.toString() !== req.user.id) {
+      return res.status(401).send("Not Allowed");
+    }
+
+    deletedNote = await notes.findByIdAndDelete(req.params.id);
+    res.json(deletedNote);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Something went wrong!!!");
