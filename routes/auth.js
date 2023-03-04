@@ -87,6 +87,7 @@ router.post(
     }
 
     const {email, password} = req.body;
+    console.log(email, password);
     try {
       // check if user exists already
       let user = await User.findOne({ email: req.body.email });
@@ -116,7 +117,7 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JSW_SECRET);
-      res.send(authToken);
+      res.send({success: true, authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Something went wrong!!!");

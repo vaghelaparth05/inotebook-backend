@@ -33,8 +33,7 @@ router.post(
     // returning errors when found.
     const noteTitle = req.body.title;
     const noteDescription = req.body.description;
-    const noteTags = req.body.tags;
-    console.log(noteTitle, noteDescription, noteTags);
+    const noteTags = req.body.tag;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -42,9 +41,9 @@ router.post(
 
     try {
       const newNote = new notes({
-        title: noteTitle,
-        description: noteDescription,
-        tags: noteTags,
+        title: noteTitle[0],
+        description: noteDescription[0],
+        tags: noteTags[0],
         user: req.user.id,
       });
       const savedNote = await newNote.save();
@@ -62,6 +61,7 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
   try {
     const { title, description, tags } = req.body;
     const noteId = req.params.id;
+    console.log(req.body);
 
     let updatedNote = {};
     if (title) {
