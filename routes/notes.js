@@ -34,6 +34,7 @@ router.post(
     const noteTitle = req.body.title;
     const noteDescription = req.body.description;
     const noteTags = req.body.tag;
+    console.log(noteTitle, noteDescription, noteTags);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -41,13 +42,12 @@ router.post(
 
     try {
       const newNote = new notes({
-        title: noteTitle[0],
-        description: noteDescription[0],
-        tags: noteTags[0],
+        title: noteTitle,
+        description: noteDescription,
+        tags: noteTags,
         user: req.user.id,
       });
       const savedNote = await newNote.save();
-
       res.json(savedNote);
     } catch (error) {
       console.error(error.message);
@@ -84,6 +84,8 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
     if (receivedNote.user.toString() !== req.user.id) {
       return res.status(401).send("Not Allowed");
     }
+
+    console.log(req.params.id, "..............");
 
     updatedNote = await notes.findByIdAndUpdate(
       req.params.id,

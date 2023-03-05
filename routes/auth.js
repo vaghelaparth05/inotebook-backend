@@ -30,6 +30,7 @@ router.post(
     // add another validation for phone number
   ],
   async (req, res) => {
+    let success=false;
     // returning errors when found.
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -63,8 +64,9 @@ router.post(
           id: user.id,
         },
       };
+      success=true;
       const authToken = jwt.sign(data, JSW_SECRET);
-      res.send(authToken);
+      res.send({success, authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Something went wrong!!!");
@@ -80,6 +82,7 @@ router.post(
     body("password", "Password cannto be blank").exists(),
   ],
   async (req, res) => {
+    let success=false;
     // returning errors when found.
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -116,8 +119,9 @@ router.post(
           id: user.id,
         },
       };
+      success=true;
       const authToken = jwt.sign(data, JSW_SECRET);
-      res.send({success: true, authToken});
+      res.send({success, authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Something went wrong!!!");
